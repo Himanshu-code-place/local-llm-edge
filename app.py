@@ -1,7 +1,17 @@
 from flask import Flask, render_template, request
 import ollama
+import fitz
+import os
 
 app = Flask(__name__)
+
+def extract_text_from_pdf(pdf_file):
+    pdf_bytes = pdf_file.read()
+    doc = fitz.open(stream=pdf_bytes, filetype="pdf")
+    text = ""
+    for page in doc:
+        text += page.get_text()
+    return text
 
 def get_ai_response(text, mode):
     if mode == "healthcare":
@@ -21,11 +31,27 @@ def get_ai_response(text, mode):
 @app.route('/', methods=['GET', 'POST'])
 def home():
     result = None
+    error = None
+    input_text = ""
+
     if request.method == 'POST':
-        text = request.form['text']
         mode = request.form['mode']
-        result = get_ai_response(text, mode)
-    return render_template('index.html', result=result)
+        pdf_file = request.files.get('pdf_file')
+
+        if pdf_file and pdf_file.filename.endswith('.pdf'):
+            input_text = extract_text_from_pdf(pdf_file)
+            if len(input_text.strip()) == 0:
+                error = "PDF mein koi text nahi mila!"
+            else:
+                result = get_ai_response(input_text[:3000], mode)
+        else:
+            input_text = request.form.get('text', '')
+            if len(input_text.strip()) == 0:
+                error = "Please enter some text!"
+            else:
+                result = get_ai_response(input_text, mode)
+
+    return render_template('index.html', result=result, error=error)
 
 if __name__ == '__main__':
     app.run(debug=True)

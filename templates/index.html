@@ -15,7 +15,6 @@
             color: #ffffff;
         }
 
-        /* Animated background */
         .bg-animation {
             position: fixed;
             top: 0; left: 0;
@@ -33,16 +32,16 @@
             animation: float linear infinite;
         }
 
-        .bg-animation span:nth-child(1)  { left: 10%; animation-duration: 8s;  animation-delay: 0s;   width: 3px; height: 3px; }
-        .bg-animation span:nth-child(2)  { left: 20%; animation-duration: 12s; animation-delay: 2s;   width: 5px; height: 5px; background: rgba(59,130,246,0.5); }
-        .bg-animation span:nth-child(3)  { left: 30%; animation-duration: 10s; animation-delay: 4s;   width: 2px; height: 2px; }
-        .bg-animation span:nth-child(4)  { left: 40%; animation-duration: 15s; animation-delay: 1s;   width: 4px; height: 4px; background: rgba(236,72,153,0.5); }
-        .bg-animation span:nth-child(5)  { left: 50%; animation-duration: 9s;  animation-delay: 3s;   width: 3px; height: 3px; }
-        .bg-animation span:nth-child(6)  { left: 60%; animation-duration: 11s; animation-delay: 5s;   width: 5px; height: 5px; background: rgba(59,130,246,0.5); }
-        .bg-animation span:nth-child(7)  { left: 70%; animation-duration: 13s; animation-delay: 2s;   width: 2px; height: 2px; }
-        .bg-animation span:nth-child(8)  { left: 80%; animation-duration: 7s;  animation-delay: 4s;   width: 4px; height: 4px; background: rgba(236,72,153,0.5); }
-        .bg-animation span:nth-child(9)  { left: 90%; animation-duration: 14s; animation-delay: 1s;   width: 3px; height: 3px; }
-        .bg-animation span:nth-child(10) { left: 95%; animation-duration: 10s; animation-delay: 6s;   width: 5px; height: 5px; }
+        .bg-animation span:nth-child(1)  { left: 10%; animation-duration: 8s;  animation-delay: 0s;  width: 3px; height: 3px; }
+        .bg-animation span:nth-child(2)  { left: 20%; animation-duration: 12s; animation-delay: 2s;  width: 5px; height: 5px; background: rgba(59,130,246,0.5); }
+        .bg-animation span:nth-child(3)  { left: 30%; animation-duration: 10s; animation-delay: 4s;  width: 2px; height: 2px; }
+        .bg-animation span:nth-child(4)  { left: 40%; animation-duration: 15s; animation-delay: 1s;  width: 4px; height: 4px; background: rgba(236,72,153,0.5); }
+        .bg-animation span:nth-child(5)  { left: 50%; animation-duration: 9s;  animation-delay: 3s;  width: 3px; height: 3px; }
+        .bg-animation span:nth-child(6)  { left: 60%; animation-duration: 11s; animation-delay: 5s;  width: 5px; height: 5px; background: rgba(59,130,246,0.5); }
+        .bg-animation span:nth-child(7)  { left: 70%; animation-duration: 13s; animation-delay: 2s;  width: 2px; height: 2px; }
+        .bg-animation span:nth-child(8)  { left: 80%; animation-duration: 7s;  animation-delay: 4s;  width: 4px; height: 4px; background: rgba(236,72,153,0.5); }
+        .bg-animation span:nth-child(9)  { left: 90%; animation-duration: 14s; animation-delay: 1s;  width: 3px; height: 3px; }
+        .bg-animation span:nth-child(10) { left: 95%; animation-duration: 10s; animation-delay: 6s;  width: 5px; height: 5px; }
 
         @keyframes float {
             0%   { transform: translateY(100vh) scale(0); opacity: 0; }
@@ -51,7 +50,6 @@
             100% { transform: translateY(-100px) scale(1); opacity: 0; }
         }
 
-        /* Glow orbs */
         .orb {
             position: fixed;
             border-radius: 50%;
@@ -69,7 +67,6 @@
             50% { transform: translate(20px, -20px); }
         }
 
-        /* Main content */
         .wrapper {
             position: relative;
             z-index: 1;
@@ -78,7 +75,6 @@
             padding: 30px 20px;
         }
 
-        /* Navbar */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -114,7 +110,6 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Hero */
         .hero {
             text-align: center;
             margin-bottom: 35px;
@@ -174,7 +169,6 @@
             transform: translateY(-2px);
         }
 
-        /* Stats */
         .stats {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -213,7 +207,6 @@
             margin-top: 4px;
         }
 
-        /* Card */
         .card {
             background: rgba(255,255,255,0.04);
             border: 1px solid rgba(255,255,255,0.08);
@@ -253,10 +246,7 @@
             background: rgba(139,92,246,0.08);
         }
 
-        select option {
-            background: #1a1a2e;
-            color: #ffffff;
-        }
+        select option { background: #1a1a2e; color: #ffffff; }
 
         .upload-box {
             border: 2px dashed rgba(139,92,246,0.3);
@@ -266,7 +256,6 @@
             background: rgba(139,92,246,0.04);
             margin-bottom: 16px;
             transition: all 0.3s;
-            cursor: pointer;
         }
 
         .upload-box:hover {
@@ -280,10 +269,7 @@
             margin-bottom: 10px;
         }
 
-        .upload-box input {
-            color: rgba(255,255,255,0.6);
-            font-size: 13px;
-        }
+        .upload-box input { color: rgba(255,255,255,0.6); font-size: 13px; }
 
         .or-divider {
             text-align: center;
@@ -345,19 +331,6 @@
             transition: all 0.3s;
             box-shadow: 0 8px 30px rgba(139,92,246,0.35);
             font-family: 'Inter', sans-serif;
-            position: relative;
-            overflow: hidden;
-        }
-
-        button::after {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 0; height: 0;
-            background: rgba(255,255,255,0.2);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.5s, height 0.5s;
         }
 
         button:hover {
@@ -365,12 +338,6 @@
             box-shadow: 0 12px 40px rgba(139,92,246,0.5);
         }
 
-        button:active::after {
-            width: 300px;
-            height: 300px;
-        }
-
-        /* Result */
         .result {
             background: rgba(255,255,255,0.04);
             border: 1px solid rgba(139,92,246,0.3);
@@ -383,6 +350,7 @@
             backdrop-filter: blur(20px);
             animation: fadeIn 0.5s ease;
             font-size: 15px;
+            margin-bottom: 20px;
         }
 
         .result h2 {
@@ -404,6 +372,119 @@
             font-size: 14px;
         }
 
+        /* History Section */
+        .history-section {
+            margin-top: 30px;
+            animation: fadeIn 0.8s ease 0.8s both;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .history-header h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .clear-btn {
+            font-size: 12px;
+            color: rgba(239,68,68,0.7);
+            background: rgba(239,68,68,0.08);
+            border: 1px solid rgba(239,68,68,0.2);
+            padding: 5px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: auto;
+            margin: 0;
+            box-shadow: none;
+            transition: all 0.3s;
+        }
+
+        .clear-btn:hover {
+            background: rgba(239,68,68,0.2);
+            transform: none;
+            box-shadow: none;
+        }
+
+        .history-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px;
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .history-item:hover {
+            background: rgba(139,92,246,0.08);
+            border-color: rgba(139,92,246,0.2);
+            transform: translateX(4px);
+        }
+
+        .history-item .history-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .history-mode {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .mode-healthcare {
+            background: rgba(16,185,129,0.15);
+            color: #10b981;
+            border: 1px solid rgba(16,185,129,0.3);
+        }
+
+        .mode-finance {
+            background: rgba(245,158,11,0.15);
+            color: #f59e0b;
+            border: 1px solid rgba(245,158,11,0.3);
+        }
+
+        .mode-hindi {
+            background: rgba(139,92,246,0.15);
+            color: #8b5cf6;
+            border: 1px solid rgba(139,92,246,0.3);
+        }
+
+        .history-time {
+            font-size: 11px;
+            color: rgba(255,255,255,0.25);
+        }
+
+        .history-text {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .no-history {
+            text-align: center;
+            color: rgba(255,255,255,0.2);
+            font-size: 14px;
+            padding: 30px;
+            border: 1px dashed rgba(255,255,255,0.08);
+            border-radius: 14px;
+        }
+
         footer {
             text-align: center;
             padding: 30px 20px;
@@ -415,13 +496,11 @@
 </head>
 <body>
 
-    <!-- Animated background -->
     <div class="bg-animation">
         <span></span><span></span><span></span><span></span><span></span>
         <span></span><span></span><span></span><span></span><span></span>
     </div>
 
-    <!-- Glow orbs -->
     <div class="orb orb1"></div>
     <div class="orb orb2"></div>
     <div class="orb orb3"></div>
@@ -475,6 +554,7 @@
                 <select name="mode">
                     <option value="healthcare">🏥 Healthcare — Patient Note Summarizer</option>
                     <option value="finance">💰 Finance — Earnings Report Analyzer</option>
+                    <option value="hindi">🇮🇳 Hindi — Hindi mein Analysis</option>
                 </select>
 
                 <label>Upload PDF</label>
@@ -500,6 +580,38 @@
             {{ result }}
         </div>
         {% endif %}
+
+        <!-- History Section -->
+        <div class="history-section">
+            <div class="history-header">
+                <h3>🕐 Recent Analysis History</h3>
+                {% if history %}
+                <form method="POST" action="/clear">
+                    <button class="clear-btn" type="submit">🗑️ Clear All</button>
+                </form>
+                {% endif %}
+            </div>
+
+            {% if history %}
+                {% for item in history %}
+                <div class="history-item">
+                    <div class="history-meta">
+                        <span class="history-mode mode-{{ item.mode }}">
+                            {% if item.mode == 'healthcare' %}🏥 Healthcare
+                            {% elif item.mode == 'finance' %}💰 Finance
+                            {% else %}🇮🇳 Hindi{% endif %}
+                        </span>
+                        <span class="history-time">{{ item.created_at.strftime('%d %b, %I:%M %p') }}</span>
+                    </div>
+                    <div class="history-text">{{ item.input_text[:100] }}...</div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-history">
+                    No analysis history yet. Start analyzing! ⚡
+                </div>
+            {% endif %}
+        </div>
 
         <footer>
             Built by Himanshu &nbsp;·&nbsp; Powered by Local LLM &nbsp;·&nbsp; Zero Cloud Dependency

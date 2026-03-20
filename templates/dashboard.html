@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dashboard — Local LLM</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            min-height: 100vh;
+            color: #ffffff;
+            padding: 30px 20px;
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.12;
+            z-index: 0;
+        }
+        .orb1 { width: 400px; height: 400px; background: #8b5cf6; top: -100px; left: -100px; }
+        .orb2 { width: 300px; height: 300px; background: #3b82f6; bottom: -50px; right: -50px; }
+
+        .wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 14px 24px;
+            margin-bottom: 35px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .back-btn {
+            font-size: 13px;
+            color: rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.08);
+            padding: 7px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(139,92,246,0.2);
+            color: #ffffff;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-title span {
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-sub {
+            color: rgba(255,255,255,0.4);
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(139,92,246,0.3);
+            background: rgba(139,92,246,0.08);
+        }
+
+        .stat-card .icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card h3 {
+            font-size: 30px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-card p {
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            margin-top: 5px;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .chart-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .chart-card h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+        }
+
+        .history-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 25px;
+        }
+
+        .history-card h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+        }
+
+        .history-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+        }
+
+        .history-row:last-child { border-bottom: none; }
+
+        .history-row:hover {
+            padding-left: 8px;
+        }
+
+        .mode-badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .mode-healthcare {
+            background: rgba(16,185,129,0.15);
+            color: #10b981;
+            border: 1px solid rgba(16,185,129,0.3);
+        }
+
+        .mode-finance {
+            background: rgba(245,158,11,0.15);
+            color: #f59e0b;
+            border: 1px solid rgba(245,158,11,0.3);
+        }
+
+        .mode-hindi {
+            background: rgba(139,92,246,0.15);
+            color: #8b5cf6;
+            border: 1px solid rgba(139,92,246,0.3);
+        }
+
+        .history-text {
+            flex: 1;
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .history-time {
+            font-size: 11px;
+            color: rgba(255,255,255,0.2);
+            white-space: nowrap;
+        }
+
+        .no-data {
+            text-align: center;
+            color: rgba(255,255,255,0.2);
+            font-size: 14px;
+            padding: 40px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255,255,255,0.2);
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+
+    <div class="wrapper">
+
+        <div class="navbar">
+            <div class="logo">⚡ Local LLM Analyzer</div>
+            <a href="/" class="back-btn">← Back to Analyzer</a>
+        </div>
+
+        <div class="page-title">📊 <span>Analytics Dashboard</span></div>
+        <div class="page-sub">Track your local AI usage — all data stays on your machine</div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="icon">⚡</div>
+                <h3>{{ stats.total }}</h3>
+                <p>Total Analyses</p>
+            </div>
+            <div class="stat-card">
+                <div class="icon">🏥</div>
+                <h3>{{ stats.healthcare }}</h3>
+                <p>Healthcare</p>
+            </div>
+            <div class="stat-card">
+                <div class="icon">💰</div>
+                <h3>{{ stats.finance }}</h3>
+                <p>Finance</p>
+            </div>
+            <div class="stat-card">
+                <div class="icon">🇮🇳</div>
+                <h3>{{ stats.hindi }}</h3>
+                <p>Hindi</p>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h4>Mode Distribution</h4>
+                <canvas id="pieChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h4>Analysis Over Time</h4>
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+
+        <div class="history-card">
+            <h4>🕐 Recent Analysis History</h4>
+            {% if history %}
+                {% for item in history %}
+                <div class="history-row">
+                    <span class="mode-badge mode-{{ item.mode }}">
+                        {% if item.mode == 'healthcare' %}🏥 Health
+                        {% elif item.mode == 'finance' %}💰 Finance
+                        {% else %}🇮🇳 Hindi{% endif %}
+                    </span>
+                    <span class="history-text">{{ item.input_text[:80] }}...</span>
+                    <span class="history-time">{{ item.created_at.strftime('%d %b, %I:%M %p') }}</span>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-data">No analysis history yet. Start analyzing! ⚡</div>
+            {% endif %}
+        </div>
+
+        <footer>
+            Built by Himanshu &nbsp;·&nbsp; Powered by Local LLM &nbsp;·&nbsp; Zero Cloud
+        </footer>
+
+    </div>
+
+    <script>
+        // Pie Chart
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        new Chart(pieCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Healthcare', 'Finance', 'Hindi'],
+                datasets: [{
+                    data: [{{ stats.healthcare }}, {{ stats.finance }}, {{ stats.hindi }}],
+                    backgroundColor: [
+                        'rgba(16,185,129,0.7)',
+                        'rgba(245,158,11,0.7)',
+                        'rgba(139,92,246,0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(16,185,129,1)',
+                        'rgba(245,158,11,1)',
+                        'rgba(139,92,246,1)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: { color: 'rgba(255,255,255,0.6)', font: { size: 12 } }
+                    }
+                }
+            }
+        });
+
+        // Bar Chart
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: {{ stats.dates | tojson }},
+                datasets: [{
+                    label: 'Analyses',
+                    data: {{ stats.counts | tojson }},
+                    backgroundColor: 'rgba(139,92,246,0.6)',
+                    borderColor: 'rgba(139,92,246,1)',
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: { color: 'rgba(255,255,255,0.6)' }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: 'rgba(255,255,255,0.4)' },
+                        grid: { color: 'rgba(255,255,255,0.05)' }
+                    },
+                    y: {
+                        ticks: { color: 'rgba(255,255,255,0.4)' },
+                        grid: { color: 'rgba(255,255,255,0.05)' }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

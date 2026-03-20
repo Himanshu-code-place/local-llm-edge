@@ -1,9 +1,9 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import ollama
 import fitz
-import os
+import json
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///history.db'
@@ -86,6 +86,31 @@ def clear_history():
     History.query.delete()
     db.session.commit()
     return ('', 204)
+
+@app.route('/dashboard')
+def dashboard():
+    total = History.query.count()
+    healthcare = History.query.filter_by(mode='healthcare').count()
+    finance = History.query.filter_by(mode='finance').count()
+    hindi = History.query.filter_by(mode='hindi').count()
+
+    recent = History.query.order_by(History.created_at.desc()).limit(10).all()
+    dates = {}
+    for item in recent:
+        date = item.created_at.strftime('%d %b')
+        dates[date] = dates.get(date, 0) + 1
+
+    stats = {
+        'total': total,
+        'healthcare': healthcare,
+        'finance': finance,
+        'hindi': hindi,
+        'dates': list(dates.keys()),
+        'counts': list(dates.values())
+    }
+
+    history = History.query.order_by(History.created_at.desc()).limit(8).all()
+    return render_template('dashboard.html', stats=stats, history=history)
 
 if __name__ == '__main__':
     app.run(debug=True)
